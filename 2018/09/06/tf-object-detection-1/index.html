@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CNN,detection,Tensorflow," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Start from Faster-RCNNFile: meta_architectures/faster_rcnn_meta_arch.pyFor FasterRCNNMetaArch class, first Step is fully understand all Args meaning1class FasterRCNNMetaArch(model.DetectionModel) init">
+<meta name="keywords" content="CNN,detection,Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reading note for tensorflow&#x2F;models&#x2F;research&#x2F;object_detection (part1)">
+<meta property="og:url" content="http://chenghaz.github.io/2018/09/06/tf-object-detection-1/index.html">
+<meta property="og:site_name" content="chenghaz Official 1.0">
+<meta property="og:description" content="Start from Faster-RCNNFile: meta_architectures/faster_rcnn_meta_arch.pyFor FasterRCNNMetaArch class, first Step is fully understand all Args meaning1class FasterRCNNMetaArch(model.DetectionModel) init">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-07T01:41:33.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Reading note for tensorflow&#x2F;models&#x2F;research&#x2F;object_detection (part1)">
+<meta name="twitter:description" content="Start from Faster-RCNNFile: meta_architectures/faster_rcnn_meta_arch.pyFor FasterRCNNMetaArch class, first Step is fully understand all Args meaning1class FasterRCNNMetaArch(model.DetectionModel) init">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chenghaz.github.io/2018/09/06/tf-object-detection-1/"/>
+
+
+
+
+
+  <title>Reading note for tensorflow/models/research/object_detection (part1) | chenghaz Official 1.0</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chenghaz Official 1.0</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/09/06/tf-object-detection-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenghaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenghaz Official 1.0">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Reading note for tensorflow/models/research/object_detection (part1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-06T18:38:46-07:00">
+                2018-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Start-from-Faster-RCNN"><a href="#Start-from-Faster-RCNN" class="headerlink" title="Start from Faster-RCNN"></a>Start from Faster-RCNN</h3><h4 id="File-meta-architectures-faster-rcnn-meta-arch-py"><a href="#File-meta-architectures-faster-rcnn-meta-arch-py" class="headerlink" title="File: meta_architectures/faster_rcnn_meta_arch.py"></a>File: meta_architectures/faster_rcnn_meta_arch.py</h4><p>For FasterRCNNMetaArch class, first Step is fully understand all Args meaning<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FasterRCNNMetaArch</span><span class="params">(model.DetectionModel)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>init: The init function is to assign a lot of hyperparameters or functions<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(...)</span>:</span></span><br><span class="line">  self._first_stage_box_predictor =</span><br><span class="line">      box_predictor_builder.build_convolutional_box_predictor</span><br><span class="line">  self._second_stage_nms_fn = second_stage_non_max_suppression_fn</span><br></pre></td></tr></table></figure></p>
+<p>preprocess: Notice that the base function of preprocess function is at “core/model.py”. The main purpose of this function is to do input preprocessing: resizing and scaling<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span><span class="params">(self, inputs)</span>:</span></span><br><span class="line">  <span class="keyword">if</span> inputs.dtype <span class="keyword">is</span> <span class="keyword">not</span> tf.float32:</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">'`preprocess` expects a tf.float32 tensor'</span>)</span><br><span class="line">    <span class="keyword">with</span> tf.name_scope(<span class="string">'Preprocessor'</span>):</span><br><span class="line">      outputs = shape_utils.static_or_dynamic_map_fn(</span><br><span class="line">        self._image_resizer_fn,</span><br><span class="line">        elems=inputs,</span><br><span class="line">        dtype=[tf.float32, tf.int32],</span><br><span class="line">        parallel_iterations=self._parallel_iterations)</span><br><span class="line">      resized_inputs = outputs[<span class="number">0</span>]</span><br><span class="line">      true_image_shapes = outputs[<span class="number">1</span>]</span><br><span class="line">      <span class="keyword">return</span> (self._feature_extractor.preprocess(resized_inputs),</span><br><span class="line">        true_image_shapes)</span><br></pre></td></tr></table></figure></p>
+<p>predict: Predicts unpostprocessed tensors from input tensor. From the comment, the authors mentioned “to yield “raw” un-postprocessed predictions. e.g. RPN predictions”<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(self, preprocessed_inputs, true_image_shapes)</span>:</span></span><br><span class="line">  <span class="comment"># --- The explanation of these two functions is below ---</span></span><br><span class="line">  (rpn_box_predictor_features, rpn_features_to_crop, anchors_boxlist,</span><br><span class="line">    image_shape) = self._extract_rpn_feature_maps(preprocessed_inputs)</span><br><span class="line">  (rpn_box_encodings, rpn_objectness_predictions_with_background</span><br><span class="line">    ) = self._predict_rpn_proposals(rpn_box_predictor_features)  </span><br><span class="line">  <span class="comment"># The Faster R-CNN paper recommends pruning anchors that venture outside</span></span><br><span class="line">  <span class="comment"># the image window at training time and clipping at inference time.</span></span><br><span class="line">  clip_window = tf.to_float(tf.stack([<span class="number">0</span>, <span class="number">0</span>, image_shape[<span class="number">1</span>], image_shape[<span class="number">2</span>]]))</span><br><span class="line">  <span class="keyword">if</span> self._is_training:</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">if</span> self._number_of_stages &gt;= <span class="number">2</span>:</span><br><span class="line">    <span class="comment"># --- The explanation of _predict_second_stage function is below ---</span></span><br><span class="line">    prediction_dict.update(self._predict_second_stage(</span><br><span class="line">        rpn_box_encodings,</span><br><span class="line">        rpn_objectness_predictions_with_background,</span><br><span class="line">        rpn_features_to_crop,</span><br><span class="line">        self._anchors.get(), image_shape, true_image_shapes))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> self._number_of_stages == <span class="number">3</span>:</span><br><span class="line">    <span class="comment"># --- _predict_third_stage predicts non-box non-class outputs ---</span></span><br><span class="line">    <span class="comment"># e.g. mask prediction</span></span><br><span class="line">    prediction_dict = self._predict_third_stage(</span><br><span class="line">        prediction_dict, true_image_shapes)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ...</span><br></pre></td></tr></table></figure></p>
+<p>_extract_rpn_feature_maps: Just extract RPN features. Notice that we have two features maps here: <em>rpn_box_predictor_features and rpn_features_to_crop</em>.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_extract_rpn_feature_maps</span><span class="params">(self, preprocessed_inputs)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="comment"># rpn_features_to_crop is like the feature before RPN</span></span><br><span class="line">  rpn_features_to_crop, _ = self._feature_extractor.extract_proposal_features(</span><br><span class="line">    preprocessed_inputs, scope=self.first_stage_feature_extractor_scope)</span><br><span class="line">    ...</span><br><span class="line">  <span class="comment"># Then feed rpn_features_to_crop to conv2d to get rpn_box_predictor_features</span></span><br><span class="line">  <span class="keyword">with</span> slim.arg_scope(self._first_stage_box_predictor_arg_scope_fn()):</span><br><span class="line">    kernel_size = self._first_stage_box_predictor_kernel_size</span><br><span class="line">    rpn_box_predictor_features = slim.conv2d(</span><br><span class="line">      rpn_features_to_crop,</span><br><span class="line">      self._first_stage_box_predictor_depth,</span><br><span class="line">      kernel_size=[kernel_size, kernel_size],</span><br><span class="line">      rate=self._first_stage_atrous_rate,</span><br><span class="line">      activation_fn=tf.nn.relu6)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></p>
+<p>_predict_rpn_proposals: Box predictors after RPN feature map to predict proposals. The input here is <em>rpn_box_predictor_features</em> and output is <em>box_encoding: 3-D tensor of float - predict boxes</em> and <em>object predictions: 3-D tensors - class prediction</em><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_predict_rpn_proposals</span><span class="params">(self, rpn_box_predictor_features)</span>:</span></span><br><span class="line">  num_anchors_per_location = (</span><br><span class="line">    self._first_stage_anchor_generator.num_anchors_per_location())</span><br><span class="line">  <span class="keyword">if</span> len(num_anchors_per_location) != <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">raise</span> RuntimeError(<span class="string">'anchor_generator is expected to generate anchors '</span></span><br><span class="line">                   <span class="string">'corresponding to a single feature map.'</span>)</span><br><span class="line">  <span class="keyword">if</span> self._first_stage_box_predictor.is_keras_model:</span><br><span class="line">    box_predictions = self._first_stage_box_predictor(</span><br><span class="line">        [rpn_box_predictor_features])</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># The _first_stage_box_predictor is assigned at __init__</span></span><br><span class="line">    box_predictions = self._first_stage_box_predictor.predict(</span><br><span class="line">        [rpn_box_predictor_features],</span><br><span class="line">        num_anchors_per_location,</span><br><span class="line">        scope=self.first_stage_box_predictor_scope)</span><br><span class="line">  <span class="comment"># box infomation and class information</span></span><br><span class="line">  box_encodings = tf.concat(</span><br><span class="line">        box_predictions[box_predictor.BOX_ENCODINGS], axis=<span class="number">1</span>)</span><br><span class="line">  objectness_predictions_with_background = tf.concat(</span><br><span class="line">      box_predictions[box_predictor.CLASS_PREDICTIONS_WITH_BACKGROUND],</span><br><span class="line">      axis=<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">return</span> (tf.squeeze(box_encodings, axis=<span class="number">2</span>),</span><br><span class="line">          objectness_predictions_with_background)</span><br></pre></td></tr></table></figure></p>
+<p>_predict_second_stage: Predicts the output tensor from second stage of Faster R-CNN. This function is similar to function <em>predict</em>.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_predict_second_stage</span><span class="params">(self, rpn_box_encodings,</span></span></span><br><span class="line"><span class="function"><span class="params">                          rpn_objectness_predictions_with_background,</span></span></span><br><span class="line"><span class="function"><span class="params">                          rpn_features_to_crop,</span></span></span><br><span class="line"><span class="function"><span class="params">                          anchors,</span></span></span><br><span class="line"><span class="function"><span class="params">                          image_shape,</span></span></span><br><span class="line"><span class="function"><span class="params">                          true_image_shapes)</span>:</span></span><br><span class="line">  image_shape_2d = self._image_batch_shape_2d(image_shape)</span><br><span class="line">  <span class="comment"># --- _postprocess_rpn contains first_stage_nms ---</span></span><br><span class="line">  <span class="comment"># --- explanation below ---</span></span><br><span class="line">  proposal_boxes_normalized, _, num_proposals = self._postprocess_rpn(</span><br><span class="line">      rpn_box_encodings, rpn_objectness_predictions_with_background,</span><br><span class="line">      anchors, image_shape_2d, true_image_shapes)</span><br><span class="line">  <span class="comment"># Resize the first stage RPN feature then maxpool</span></span><br><span class="line">  <span class="comment"># RoI pooling function</span></span><br><span class="line">  flattened_proposal_feature_maps = (</span><br><span class="line">      self._compute_second_stage_input_feature_maps(</span><br><span class="line">          rpn_features_to_crop, proposal_boxes_normalized))</span><br><span class="line">  <span class="comment"># Extract second stage box classifier feature</span></span><br><span class="line">  <span class="comment"># Similar to _extract_rpn_feature_maps</span></span><br><span class="line">  box_classifier_features = (</span><br><span class="line">      self._feature_extractor.extract_box_classifier_features(</span><br><span class="line">          flattened_proposal_feature_maps,</span><br><span class="line">          scope=self.second_stage_feature_extractor_scope))</span><br><span class="line">  <span class="comment"># Second Stage box predictor</span></span><br><span class="line">  <span class="keyword">if</span> self._mask_rcnn_box_predictor.is_keras_model:</span><br><span class="line">    box_predictions = self._mask_rcnn_box_predictor(</span><br><span class="line">      [box_classifier_features],</span><br><span class="line">      prediction_stage=<span class="number">2</span>)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># ._mask_rcnn_box_predictor is second_stage_mask_rcnn_box_predictor</span></span><br><span class="line">    <span class="comment"># at __init__. Then, from faster_rcnn_meta_arch_test_lib</span></span><br><span class="line">    <span class="comment"># second_stage_mask_rcnn_box_predictor is box_predictor *core/box_predictor.py*</span></span><br><span class="line">    box_predictions = self._mask_rcnn_box_predictor.predict(</span><br><span class="line">      [box_classifier_features],</span><br><span class="line">      num_predictions_per_location=[<span class="number">1</span>],</span><br><span class="line">      scope=self.second_stage_box_predictor_scope,</span><br><span class="line">      prediction_stage=<span class="number">2</span>)</span><br><span class="line">  <span class="comment"># box information and class information</span></span><br><span class="line">  refined_box_encodings = tf.squeeze(</span><br><span class="line">    box_predictions[box_predictor.BOX_ENCODINGS],</span><br><span class="line">    axis=<span class="number">1</span>, name=<span class="string">'all_refined_box_encodings'</span>)</span><br><span class="line">  class_predictions_with_background = tf.squeeze(</span><br><span class="line">    box_predictions[box_predictor.CLASS_PREDICTIONS_WITH_BACKGROUND],</span><br><span class="line">    axis=<span class="number">1</span>, name=<span class="string">'all_class_predictions_with_background'</span>)</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> ...</span><br></pre></td></tr></table></figure></p>
+<p>_postprocess_rpn: convert RPN to proposals, perform non max suppression(NMS). This function contains many tensorflow shape API. Here, I just select the functional part.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_postprocess_rpn</span><span class="params">(self,</span></span></span><br><span class="line"><span class="function"><span class="params">                    rpn_box_encodings_batch,</span></span></span><br><span class="line"><span class="function"><span class="params">                    rpn_objectness_predictions_with_background_batch,</span></span></span><br><span class="line"><span class="function"><span class="params">                    anchors,</span></span></span><br><span class="line"><span class="function"><span class="params">                    image_shapes,</span></span></span><br><span class="line"><span class="function"><span class="params">                    true_image_shapes)</span>:</span></span><br><span class="line">  <span class="comment"># tf.expand_dims tf.tile tf.squeeze tf.nn.softmax ...</span></span><br><span class="line">  ...</span><br><span class="line">  (proposal_boxes, proposal_scores, _, _, _,</span><br><span class="line">  <span class="comment"># The NMS here is post_processing.batch_multiclass_non_max_suppression</span></span><br><span class="line">  num_proposals) = post_processing.batch_multiclass_non_max_suppression(</span><br><span class="line">    tf.expand_dims(proposal_boxes, axis=<span class="number">2</span>),</span><br><span class="line">    tf.expand_dims(rpn_objectness_softmax_without_background,</span><br><span class="line">                  axis=<span class="number">2</span>),</span><br><span class="line">    self._first_stage_nms_score_threshold,</span><br><span class="line">    self._first_stage_nms_iou_threshold,</span><br><span class="line">    self._first_stage_max_proposals,</span><br><span class="line">    self._first_stage_max_proposals,</span><br><span class="line">    clip_window=clip_window)</span><br><span class="line">    ...</span><br><span class="line">  <span class="comment"># normalize proposal boxes</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">normalize_boxes</span><span class="params">(args)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure></p>
+<p>Now, we jump into postprocess function</p>
+<p>postprocess: Convert prediction tensors to final detections. Input for this function is the output for predict function.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">postprocess</span><span class="params">(self, prediction_dict, true_image_shapes)</span>:</span></span><br><span class="line">  <span class="comment"># FirstStage -&gt; _postprocess_rpn -&gt; explained before</span></span><br><span class="line">  <span class="comment"># SecondStage -&gt; _postprocess_box_classifier -&gt; explained below</span></span><br><span class="line">  <span class="comment"># ThirdStage -&gt; already postprocessed, just simple trainsfer</span></span><br><span class="line">  <span class="keyword">with</span> tf.name_scope(<span class="string">'FirstStagePostprocessor'</span>):</span><br><span class="line">    <span class="keyword">if</span> self._number_of_stages == <span class="number">1</span>:</span><br><span class="line">      proposal_boxes, proposal_scores, num_proposals = self._postprocess_rpn(</span><br><span class="line">        prediction_dict[<span class="string">'rpn_box_encodings'</span>],</span><br><span class="line">        prediction_dict[<span class="string">'rpn_objectness_predictions_with_background'</span>],</span><br><span class="line">        prediction_dict[<span class="string">'anchors'</span>],</span><br><span class="line">        true_image_shapes,</span><br><span class="line">        true_image_shapes)</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      fields.DetectionResultFields.detection_boxes: proposal_boxes,</span><br><span class="line">      fields.DetectionResultFields.detection_scores: proposal_scores,</span><br><span class="line">      fields.DetectionResultFields.num_detections:</span><br><span class="line">          tf.to_float(num_proposals),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># TODO(jrru): Remove mask_predictions from _post_process_box_classifier.</span></span><br><span class="line">  <span class="keyword">with</span> tf.name_scope(<span class="string">'SecondStagePostprocessor'</span>):</span><br><span class="line">    <span class="keyword">if</span> (self._number_of_stages == <span class="number">2</span> <span class="keyword">or</span></span><br><span class="line">        (self._number_of_stages == <span class="number">3</span> <span class="keyword">and</span> self._is_training)):</span><br><span class="line">      mask_predictions = prediction_dict.get(box_predictor.MASK_PREDICTIONS)</span><br><span class="line">      detections_dict = self._postprocess_box_classifier(</span><br><span class="line">        prediction_dict[<span class="string">'refined_box_encodings'</span>],</span><br><span class="line">        prediction_dict[<span class="string">'class_predictions_with_background'</span>],</span><br><span class="line">        prediction_dict[<span class="string">'proposal_boxes'</span>],</span><br><span class="line">        prediction_dict[<span class="string">'num_proposals'</span>],</span><br><span class="line">        true_image_shapes,</span><br><span class="line">        mask_predictions=mask_predictions)</span><br><span class="line">  <span class="keyword">return</span> detections_dict</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> self._number_of_stages == <span class="number">3</span>:</span><br><span class="line">    <span class="comment"># Post processing is already performed in 3rd stage. We need to transfer</span></span><br><span class="line">    <span class="comment"># postprocessed tensors from `prediction_dict` to `detections_dict`.</span></span><br><span class="line">    detections_dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> prediction_dict:</span><br><span class="line">      <span class="keyword">if</span> key == fields.DetectionResultFields.detection_masks:</span><br><span class="line">        detections_dict[key] = tf.sigmoid(prediction_dict[key])</span><br><span class="line">      <span class="keyword">elif</span> <span class="string">'detection'</span> <span class="keyword">in</span> key:</span><br><span class="line">        detections_dict[key] = prediction_dict[key]</span><br><span class="line">    <span class="keyword">return</span> detections_dict</span><br></pre></td></tr></table></figure></p>
+<p>_postprocess_box_classifier: Convert second stage box classifier to result. Similar to first stage operations.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_postprocess_box_classifier</span><span class="params">(self,</span></span></span><br><span class="line"><span class="function"><span class="params">                                refined_box_encodings,</span></span></span><br><span class="line"><span class="function"><span class="params">                                class_predictions_with_background,</span></span></span><br><span class="line"><span class="function"><span class="params">                                proposal_boxes,</span></span></span><br><span class="line"><span class="function"><span class="params">                                num_proposals,</span></span></span><br><span class="line"><span class="function"><span class="params">                                image_shapes,</span></span></span><br><span class="line"><span class="function"><span class="params">                                mask_predictions=None)</span>:</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment"># _second_stage_nms_fn here is initialized at __init__</span></span><br><span class="line">  (nmsed_boxes, nmsed_scores, nmsed_classes, nmsed_masks, _,</span><br><span class="line">  num_detections) = self._second_stage_nms_fn(</span><br><span class="line">    refined_decoded_boxes_batch,</span><br><span class="line">    class_predictions_batch,</span><br><span class="line">    clip_window=clip_window,</span><br><span class="line">    change_coordinate_frame=<span class="keyword">True</span>,</span><br><span class="line">    num_valid_boxes=num_proposals,</span><br><span class="line">    masks=mask_predictions_batch)</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure></p>
+<p>Final part: Loss</p>
+<p>loss: depends on stage number. First stage loss: self._loss_rpn, After first stage: self._loss_box_classifier<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss</span><span class="params">(self, prediction_dict, true_image_shapes, scope=None)</span>:</span></span><br><span class="line">  <span class="keyword">with</span> tf.name_scope(scope, <span class="string">'Loss'</span>, prediction_dict.values()):</span><br><span class="line">    (groundtruth_boxlists, groundtruth_classes_with_background_list,</span><br><span class="line">    groundtruth_masks_list, groundtruth_weights_list</span><br><span class="line">    ) = self._format_groundtruth_data(true_image_shapes)</span><br><span class="line">    loss_dict = self._loss_rpn(</span><br><span class="line">      prediction_dict[<span class="string">'rpn_box_encodings'</span>],</span><br><span class="line">      prediction_dict[<span class="string">'rpn_objectness_predictions_with_background'</span>],</span><br><span class="line">      prediction_dict[<span class="string">'anchors'</span>], groundtruth_boxlists,</span><br><span class="line">      groundtruth_classes_with_background_list, groundtruth_weights_list)</span><br><span class="line">    <span class="comment"># For stage 2 or 3</span></span><br><span class="line">    <span class="keyword">if</span> self._number_of_stages &gt; <span class="number">1</span>:</span><br><span class="line">      loss_dict.update(</span><br><span class="line">        self._loss_box_classifier(</span><br><span class="line">          prediction_dict[<span class="string">'refined_box_encodings'</span>],</span><br><span class="line">          prediction_dict[<span class="string">'class_predictions_with_background'</span>],</span><br><span class="line">          prediction_dict[<span class="string">'proposal_boxes'</span>],</span><br><span class="line">          prediction_dict[<span class="string">'num_proposals'</span>],</span><br><span class="line">          groundtruth_boxlists,</span><br><span class="line">          groundtruth_classes_with_background_list,</span><br><span class="line">          groundtruth_weights_list,</span><br><span class="line">          prediction_dict[<span class="string">'image_shape'</span>],</span><br><span class="line">          prediction_dict.get(<span class="string">'mask_predictions'</span>),</span><br><span class="line">          groundtruth_masks_list,</span><br><span class="line">      ))</span><br><span class="line">  <span class="keyword">return</span> loss_dict</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+            <a href="/tags/detection/" rel="tag"># detection</a>
+          
+            <a href="/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/26/optimization-algorithms/" rel="next" title="Optimization Algorithms - Deeplearning.ai">
+                <i class="fa fa-chevron-left"></i> Optimization Algorithms - Deeplearning.ai
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="chenghaz" />
+            
+              <p class="site-author-name" itemprop="name">chenghaz</p>
+              <p class="site-description motion-element" itemprop="description">Why always me - Mario Balotelli</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-from-Faster-RCNN"><span class="nav-number">1.</span> <span class="nav-text">Start from Faster-RCNN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#File-meta-architectures-faster-rcnn-meta-arch-py"><span class="nav-number">1.1.</span> <span class="nav-text">File: meta_architectures/faster_rcnn_meta_arch.py</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenghaz</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
