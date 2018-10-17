@@ -242,6 +242,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/10/15/semantic-segmantation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenghaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenghaz Official 1.0">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/15/semantic-segmantation/" itemprop="url">Semantic Segmentation Overview (part1)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-15T14:49:13-07:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Encoder-Decoder-with-Atrous-Separable-Convolution-for-Semantic-Image-Segmentation"><a href="#Encoder-Decoder-with-Atrous-Separable-Convolution-for-Semantic-Image-Segmentation" class="headerlink" title="Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation"></a>Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation</h2><p>(The model also named DeepLab v3+)</p>
+<h3 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h3><img src="/2018/10/15/semantic-segmantation/1.png">
+<ol>
+<li><strong>Spatial pyramid pooling</strong>:<br>Models, such as PSPNet or DeepLab, perform spatial pyramid pooling at several grid scales (including image level pooling) or apply several parallel atrous convolution with different rates (called Atrous Spatial Pyramid Pooling, or ASPP).</li>
+<li><strong>Encoder-decoder</strong>: Typically, the encoder-decoder networks contain (1) an encoder module that gradually reduces the feature maps and captures higher semantic information, and (2) a decoder module that gradually recovers the spatial information.</li>
+</ol>
+<h3 id="Proposed-Model"><a href="#Proposed-Model" class="headerlink" title="Proposed Model"></a>Proposed Model</h3><img src="/2018/10/15/semantic-segmantation/2.png">
+<p>Encoder-Decoder with Atrous convolution</p>
+<h4 id="Atrous-Convolution"><a href="#Atrous-Convolution" class="headerlink" title="Atrous Convolution"></a>Atrous Convolution</h4><img src="/2018/10/15/semantic-segmantation/3.gif" title="https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d">
+<p>Atrous convolution allows us to explicitly control the resolution of features computed by deep convolutional neural networks and adjust filter’s field-of-view in order to capture multi-scale information, generalizes standard convolution operation.</p>
+<h4 id="Depthwise-separable-convolution"><a href="#Depthwise-separable-convolution" class="headerlink" title="Depthwise separable convolution"></a>Depthwise separable convolution</h4><p>Like MobileNet or MobileNetV2</p>
+<h4 id="Encoder-DeepLab-v3"><a href="#Encoder-DeepLab-v3" class="headerlink" title="Encoder: DeepLab v3"></a>Encoder: DeepLab v3</h4><p>Use the last feature map before logits in the original DeepLabv3 as the encoder output in our proposed encoder-decoder structure. Also, author mentioned a output stride as a Hyperparameter, which means the size relationship between original image and output feature map.</p>
+<h4 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h4><p>The naive bilinear upsample cannot recover semantic details of an image. The author mentioned a method that combine bilinear upsample and convolution together.<br>The decoder work flow for DeepLab v3+ is: upsample -&gt; concat selected low level feature -&gt; convolution -&gt; upsample -&gt; result</p>
+<h4 id="Xception"><a href="#Xception" class="headerlink" title="Xception"></a>Xception</h4><p>One of the backbone model.</p>
+<h2 id="PARSENET-LOOKING-WIDER-TO-SEE-BETTER"><a href="#PARSENET-LOOKING-WIDER-TO-SEE-BETTER" class="headerlink" title="PARSENET: LOOKING WIDER TO SEE BETTER"></a>PARSENET: LOOKING WIDER TO SEE BETTER</h2><ul>
+<li>FCN disregards global information about an image, thus ignoring potentially useful scene-level semantic context</li>
+<li>CRF(conditional random field) &amp; DNN require a fair amount of experience in managing the idiosyncrasies of training methodology and parameters.</li>
+</ul>
+<h3 id="Model-ParseNet"><a href="#Model-ParseNet" class="headerlink" title="Model - ParseNet"></a>Model - ParseNet</h3><h4 id="Global-context"><a href="#Global-context" class="headerlink" title="Global context"></a>Global context</h4><p>Context is known to be very useful for improving performance on detection and segmentation tasks using deep learning. However, in practice, for FCN, the empirical size of the receptive fields is much smaller, and is not enough to capture the global context. The author proposed a global average pooling and pool the context features from the last layer or any layer if that is desired. Then concat global feature to feature map to combine the global context to model.</p>
+<h4 id="Early-Fusion-and-Late-Fusion"><a href="#Early-Fusion-and-Late-Fusion" class="headerlink" title="Early Fusion and Late Fusion"></a>Early Fusion and Late Fusion</h4><ul>
+<li>Early fusion: unpool (replicate) global feature to the same size as of local feature map spatially and then concatenate them.</li>
+<li>Late fusion: each feature is used to learn its own classifier, followed by merging the two predictions into a single classification score.</li>
+</ul>
+<h4 id="l2-normalization-layer"><a href="#l2-normalization-layer" class="headerlink" title="l2 normalization layer"></a>l2 normalization layer</h4><p>Naively concatenating features leads to poor performance as the ”larger” features dominate the ”smaller” ones. The author applied L2-norm and learned the scale parameter for each channel before using the feature for classification, which leads to more stable training. The author mentioned l2-norm on each pixel on feature map instead of whole feature map.</p>
+<h2 id="TBD"><a href="#TBD" class="headerlink" title="TBD"></a>TBD</h2><ol>
+<li>DeepLab v3</li>
+<li>Xception</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/09/09/tf-object-detection-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1286,7 +1433,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1299,7 +1446,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
