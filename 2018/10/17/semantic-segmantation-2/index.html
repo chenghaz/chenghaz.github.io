@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CNN," />
+  <meta name="keywords" content="CNN,Segmentation,Tensorflow," />
 
 
 
@@ -79,20 +79,21 @@
 
 
 
-<meta name="description" content="The final output layer will be the same height and width as the input image, but the number of channels will be equal to the number of classes. If we’re classifying each pixel as one of fifteen diffe">
-<meta name="keywords" content="CNN">
+<meta name="description" content="Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)Proposed ModelApplied atrous convolution as the feature extraction method. And employ in cascade or parallel. One advantage of">
+<meta name="keywords" content="CNN,Segmentation,Tensorflow">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fully Convolutional Network">
-<meta property="og:url" content="http://chenghaz.github.io/2018/08/06/FCN/index.html">
+<meta property="og:title" content="Semantic Segmentation Overview (part2)">
+<meta property="og:url" content="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/index.html">
 <meta property="og:site_name" content="chenghaz Official 1.0">
-<meta property="og:description" content="The final output layer will be the same height and width as the input image, but the number of channels will be equal to the number of classes. If we’re classifying each pixel as one of fifteen diffe">
+<meta property="og:description" content="Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)Proposed ModelApplied atrous convolution as the feature extraction method. And employ in cascade or parallel. One advantage of">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://chenghaz.github.io/2018/08/06/FCN/1.png">
-<meta property="og:updated_time" content="2018-08-06T19:19:39.759Z">
+<meta property="og:image" content="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/1.png">
+<meta property="og:image" content="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/2.png">
+<meta property="og:updated_time" content="2018-11-02T18:15:05.696Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fully Convolutional Network">
-<meta name="twitter:description" content="The final output layer will be the same height and width as the input image, but the number of channels will be equal to the number of classes. If we’re classifying each pixel as one of fifteen diffe">
-<meta name="twitter:image" content="http://chenghaz.github.io/2018/08/06/FCN/1.png">
+<meta name="twitter:title" content="Semantic Segmentation Overview (part2)">
+<meta name="twitter:description" content="Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)Proposed ModelApplied atrous convolution as the feature extraction method. And employ in cascade or parallel. One advantage of">
+<meta name="twitter:image" content="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/1.png">
 
 
 
@@ -122,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://chenghaz.github.io/2018/08/06/FCN/"/>
+  <link rel="canonical" href="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/"/>
 
 
 
 
 
-  <title>Fully Convolutional Network | chenghaz Official 1.0</title>
+  <title>Semantic Segmentation Overview (part2) | chenghaz Official 1.0</title>
   
 
 
@@ -245,7 +246,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/08/06/FCN/">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="chenghaz">
@@ -262,7 +263,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Fully Convolutional Network</h1>
+          <h1 class="post-title" itemprop="name headline">Semantic Segmentation Overview (part2)</h1>
         
 
         <div class="post-meta">
@@ -274,8 +275,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-06T11:43:46-07:00">
-                2018-08-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-17T11:43:36-07:00">
+                2018-10-17
               </time>
             
 
@@ -312,8 +313,11 @@
       
 
       
-        <img src="/2018/08/06/FCN/1.png">
-<p>The final output layer will be the same height and width as the input image, but the number of channels will be equal to the number of classes. If we’re classifying each pixel as one of fifteen different classes, then the final output layer will be height x width x 15 classes.  </p>
+        <h2 id="Rethinking-Atrous-Convolution-for-Semantic-Image-Segmentation-DeepLabv3"><a href="#Rethinking-Atrous-Convolution-for-Semantic-Image-Segmentation-DeepLabv3" class="headerlink" title="Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)"></a>Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)</h2><h3 id="Proposed-Model"><a href="#Proposed-Model" class="headerlink" title="Proposed Model"></a>Proposed Model</h3><p>Applied atrous convolution as the feature extraction method. And employ in cascade or parallel. One advantage of atrous convolution is that it can keep the dimension of each feature map and allow us to extract denser feature responses.</p>
+<p>Note that <em>output_stride</em> is the ratio of input image spatial resolution to final output resolution.</p>
+<h4 id="Going-Deeper-with-Atrous-Convolution"><a href="#Going-Deeper-with-Atrous-Convolution" class="headerlink" title="Going Deeper with Atrous Convolution"></a>Going Deeper with Atrous Convolution</h4><p>Cascade version of atrous convolution with ResNet architecture. The motivation of this model is that the introduced striding makes it easy to capture long range information in the deeper blocks.<br><img src="/2018/10/17/semantic-segmantation-2/1.png"><br>Also, the author introduced Multi-grid method, which employ a hierarchy of grids of different sizes.<br><img src="/2018/10/17/semantic-segmantation-2/2.png" title="Multigrid Neural Architectures"></p>
+<h4 id="Atrous-Spatial-Pyramid-Pooling"><a href="#Atrous-Spatial-Pyramid-Pooling" class="headerlink" title="Atrous Spatial Pyramid Pooling"></a>Atrous Spatial Pyramid Pooling</h4><p>Atrous Spatial Pyrimid Pooling is applied on top of the feature map, with four parallel atrous convolutions with different atrous rates.</p>
+<p>Final ASPP: One 1x1 convolution and three 3x3 convolutions with rates(6, 12, 18) when <em>output_stride</em> is 16. Then concat all branches results and pass through another 1x1 convolution before the final 1x1 convolution which generates the final logits. </p>
 
       
     </div>
@@ -333,6 +337,10 @@
           
             <a href="/tags/CNN/" rel="tag"># CNN</a>
           
+            <a href="/tags/Segmentation/" rel="tag"># Segmentation</a>
+          
+            <a href="/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+          
         </div>
       
 
@@ -344,8 +352,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/YOLO-detection/" rel="next" title="YOLO object detection note">
-                <i class="fa fa-chevron-left"></i> YOLO object detection note
+              <a href="/2018/10/15/semantic-segmantation/" rel="next" title="Semantic Segmentation Overview (part1)">
+                <i class="fa fa-chevron-left"></i> Semantic Segmentation Overview (part1)
               </a>
             
           </div>
@@ -353,10 +361,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/15/small-net/" rel="prev" title="CNN model comparison - for some model that need much lower memory cost">
-                CNN model comparison - for some model that need much lower memory cost <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -408,8 +412,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -464,6 +477,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rethinking-Atrous-Convolution-for-Semantic-Image-Segmentation-DeepLabv3"><span class="nav-number">1.</span> <span class="nav-text">Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Proposed-Model"><span class="nav-number">1.1.</span> <span class="nav-text">Proposed Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Going-Deeper-with-Atrous-Convolution"><span class="nav-number">1.1.1.</span> <span class="nav-text">Going Deeper with Atrous Convolution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Atrous-Spatial-Pyramid-Pooling"><span class="nav-number">1.1.2.</span> <span class="nav-text">Atrous Spatial Pyramid Pooling</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

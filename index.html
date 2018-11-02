@@ -242,6 +242,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenghaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenghaz Official 1.0">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/17/semantic-segmantation-2/" itemprop="url">Semantic Segmentation Overview (part2)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-17T11:43:36-07:00">
+                2018-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Rethinking-Atrous-Convolution-for-Semantic-Image-Segmentation-DeepLabv3"><a href="#Rethinking-Atrous-Convolution-for-Semantic-Image-Segmentation-DeepLabv3" class="headerlink" title="Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)"></a>Rethinking Atrous Convolution for Semantic Image Segmentation (DeepLabv3)</h2><h3 id="Proposed-Model"><a href="#Proposed-Model" class="headerlink" title="Proposed Model"></a>Proposed Model</h3><p>Applied atrous convolution as the feature extraction method. And employ in cascade or parallel. One advantage of atrous convolution is that it can keep the dimension of each feature map and allow us to extract denser feature responses.</p>
+<p>Note that <em>output_stride</em> is the ratio of input image spatial resolution to final output resolution.</p>
+<h4 id="Going-Deeper-with-Atrous-Convolution"><a href="#Going-Deeper-with-Atrous-Convolution" class="headerlink" title="Going Deeper with Atrous Convolution"></a>Going Deeper with Atrous Convolution</h4><p>Cascade version of atrous convolution with ResNet architecture. The motivation of this model is that the introduced striding makes it easy to capture long range information in the deeper blocks.<br><img src="/2018/10/17/semantic-segmantation-2/1.png"><br>Also, the author introduced Multi-grid method, which employ a hierarchy of grids of different sizes.<br><img src="/2018/10/17/semantic-segmantation-2/2.png" title="Multigrid Neural Architectures"></p>
+<h4 id="Atrous-Spatial-Pyramid-Pooling"><a href="#Atrous-Spatial-Pyramid-Pooling" class="headerlink" title="Atrous Spatial Pyramid Pooling"></a>Atrous Spatial Pyramid Pooling</h4><p>Atrous Spatial Pyrimid Pooling is applied on top of the feature map, with four parallel atrous convolutions with different atrous rates.</p>
+<p>Final ASPP: One 1x1 convolution and three 3x3 convolutions with rates(6, 12, 18) when <em>output_stride</em> is 16. Then concat all branches results and pass through another 1x1 convolution before the final 1x1 convolution which generates the final logits. </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/10/15/semantic-segmantation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1433,7 +1557,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
