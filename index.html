@@ -242,6 +242,141 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/12/06/semantic-segmantation-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenghaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenghaz Official 1.0">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/06/semantic-segmantation-3/" itemprop="url">semantic-segmantation-3</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-06T11:21:49-08:00">
+                2018-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Pyramid-Scene-Parsing-Network-PSPNet"><a href="#Pyramid-Scene-Parsing-Network-PSPNet" class="headerlink" title="Pyramid Scene Parsing Network (PSPNet)"></a>Pyramid Scene Parsing Network (PSPNet)</h2><h3 id="Several-failure-cases-for-FCN"><a href="#Several-failure-cases-for-FCN" class="headerlink" title="Several failure cases for FCN"></a>Several failure cases for FCN</h3><ol>
+<li>For semantic segmentation, it is important for a network to understand the co-occurrent visual patterns. For example, a signal light is likely appear on a road rather than flight.</li>
+<li>The label for several classes could be confusing. e.g. field and earth.</li>
+<li>Several small-size things, like streetlight and signboard, are hard to find while they may be of great importance. Contrarily, big objects or stuff may exceed the receptive field of FCN and thus cause discontinuous prediction.</li>
+</ol>
+<h3 id="Pyramid-Pooling"><a href="#Pyramid-Pooling" class="headerlink" title="Pyramid Pooling"></a>Pyramid Pooling</h3><p>The empirical receptive field of CNN is much smaller than the theoretical one especially on high-level layers. Global average pooling is a good baseline model as the global contextual prior, which is commonly used in image classification tasks. So, the global context information along with sub-region context is helpful in semantic segmentation task.</p>
+<p>In this paper, the authors proposed a hierarchical global prior, containing information with different scales and varying among different sub-regions.<br><img src="/2018/12/06/semantic-segmantation-3/1.png"></p>
+<p>PSPNet provides an effective global contextual prior for pixel-level scene parsing. For authors setting, pyramid pooling module is a four-level one with bin sizes of 1×1, 2×2, 3×3 and 6×6 respectively.</p>
+<h2 id="ICNet-for-Real-Time-Semantic-Segmentation-on-High-Resolution-Images"><a href="#ICNet-for-Real-Time-Semantic-Segmentation-on-High-Resolution-Images" class="headerlink" title="ICNet for Real-Time Semantic Segmentation on High-Resolution Images"></a>ICNet for Real-Time Semantic Segmentation on High-Resolution Images</h2><p>The target for this paper is to build a practically fast semantic segmentation system with decent prediction accuracy.</p>
+<h3 id="Image-Cascade-Network-ICNet"><a href="#Image-Cascade-Network-ICNet" class="headerlink" title="Image Cascade Network (ICNet)"></a>Image Cascade Network (ICNet)</h3><p>It takes cascade image inputs (i.e., low-, medium- and high resolution images), adopts cascade feature fusion and is trained with cascade label guidance.</p>
+<p>A 1/4 sized image is fed into PSPNet with downsampling rate 8, resulting in a 1/32-resolution feature map. To get high quality segmentation, medium and high resolution branches (middle and bottom parts in Fig. 2) help recover and refine the coarse prediction.</p>
+<p>Light weighted CNNs (green dotted box) are adopted in higher resolution branches; different-branch output feature maps are fused by cascade-feature-fusion unit and trained with cascade label guidance.</p>
+<p>Weights and Computation (in 17 layers) can be shared between low- and medium-branches.<br><img src="/2018/12/06/semantic-segmantation-3/2.png"></p>
+<h3 id="Cascade-Feature-Fusion"><a href="#Cascade-Feature-Fusion" class="headerlink" title="Cascade Feature Fusion"></a>Cascade Feature Fusion</h3><img src="/2018/12/06/semantic-segmantation-3/3.png">
+<p>F2 is with doubled spatial size of F1.<br>We first apply upsampling rate 2 on F1 through bilinear interpolation, yielding the same spatial size as F2. Then a dilated convolution layer with kernel size C3 × 3 × 3 and dilation 2 is applied to refine the upsampled features.</p>
+<p>For feature F2, a projection convolution with kernel size C3 ×1×1 is utilized to project F2 so that it has the same number of channels as the output of F1. Then two batch normalization layers are used to normalize these two processed</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/10/17/semantic-segmantation-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1385,131 +1520,13 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/06/09/First-Post/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenghaz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chenghaz Official 1.0">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/09/First-Post/" itemprop="url">未来简史</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-09T11:38:13-07:00">
-                2018-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>饥荒、疾病、战争（“丛林法则”、“契诃夫法则”）是主要造成大规模人类死去的原因（古代and近代）<br>21世纪会有哪些议题取代饥荒、瘟疫和战争呢？ 1.长生不老 2.幸福快乐（生理、生物）<br>科学的用途：1. 预测未来 2. 拓宽视野。 同时，研究历史是为了挣脱过去的桎梏</p>
-<p>第一部分 - 智人征服世界<br>智能设计取代自然选择、将生命形式从有机领域延伸到无机领域<br>农业革命（第一次革命）既是经济上的革命，也成了宗教上的革命：通过宗教来赋予“人”特殊的意义<br>现代科学和工业的兴起（第二次革命）中，变成的人类的独角戏<br>农业革命促成了有神论宗教，科技革命催生了人文主义宗教<br>现有的法律、政治和经济制度而言，相信人类有永恒的灵魂而动物只有短暂的肉体（人为什么会与众不同），是制度的重要支柱<br>“他心问题” - （我们生活在的环境是一个虚拟环境）- 图灵测试<br>“智人”能够统治世界，是因为只有智人能够大规模灵活合作<br>历史的展开方式：人类编织出一张意义的网，并全然相信它</p>
-<p>第二部分 - 智人为世界赋予意义<br>文字和货币让人突破了人类大脑的数据处理的限制，建造出幅员辽阔的王国<br>人类合作网络的力量就是依赖于真实与虚构之间的微妙平衡</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1557,7 +1574,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
