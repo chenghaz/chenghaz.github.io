@@ -242,138 +242,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/08/06/YOLO-detection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenghaz">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="chenghaz Official 1.0">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/06/YOLO-detection/" itemprop="url">YOLO object detection note</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-06T10:28:37-07:00">
-                2018-08-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>Classification with localization</strong><br>Have output 4 more outputs -&gt; bounding box<br>Depends on whether contains an object.  </p>
-<p><strong>Landmark detection</strong><br>Find some landmark of the face -&gt; is that a face and coordinate of face<br>Add a brunch of outputs  </p>
-<p><strong>Object detection(sliding window)</strong><br>Choose a sliding window through the picture -&gt; predict that region<br>The choose different size of sliding window<br>Much more expensive and slow  </p>
-<p><strong>Convolutional implementation of sliding window</strong><br>Turning FC layer into Conv layer<br><img src="/2018/08/06/YOLO-detection/1.png"><br>Position of bounding box maybe inaccurate.</p>
-<p><strong>Bounding box predictions</strong><br>YOLO split into grids. For each grid cell, have a prediction output<br><img src="/2018/08/06/YOLO-detection/2.png"></p>
-<ol>
-<li>Like image classification and localization  </li>
-<li>Convolutional implementation (fast, real-time) </li>
-</ol>
-<p><strong>Intersection Over Union(IoU)</strong><br>Compute union over bounding boxes (size of intersection / size of union)<br>Correct if IoU &gt;= 0.5 (hyper-parameter)<br>Measure of the overlap between two bounding boxes  </p>
-<p><strong>Non-max suppression (NMS)</strong><br>Clean up the multiple detections<br>Suppress the higher IoU bounding boxes<br>Output the maximum probability box<br>First step, discard all boxes that have a lower probability<br>While loop(any remaining boxes), pick the box with highest probability, then output the prediction Finally, Discard higher IoU boxes.  </p>
-<p><strong>Anchor boxes</strong><br>Predefine several size of anchor boxes<br><img src="/2018/08/06/YOLO-detection/3.png"><br>With two anchor boxes, each object in training image is assigned to grid cell that contains object’s midpoint and anchor box for the grid cell with highest IoU.<br><img src="/2018/08/06/YOLO-detection/4.png"><br>If objects are more than anchor boxes number, this algorithm cannot handle.<br>Or several object share save anchor box shape.  </p>
-<p><strong>YOLO algorithm – put together</strong> </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/06/18/language-id/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -541,7 +409,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -554,7 +422,7 @@ the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochas
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
