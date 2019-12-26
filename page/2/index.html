@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/06/09/First-Post/">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/08/06/YOLO-detection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="chenghaz">
@@ -261,7 +261,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/09/First-Post/" itemprop="url">未来简史</a></h1>
+                <a class="post-title-link" href="/2018/08/06/YOLO-detection/" itemprop="url">YOLO object detection note</a></h1>
         
 
         <div class="post-meta">
@@ -273,8 +273,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-09T11:38:13-07:00">
-                2018-06-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-06T10:28:37-07:00">
+                2018-08-06
               </time>
             
 
@@ -313,9 +313,145 @@
       
         
           
-            <p>饥荒、疾病、战争（“丛林法则”、“契诃夫法则”）是主要造成大规模人类死去的原因（古代and近代）<br>21世纪会有哪些议题取代饥荒、瘟疫和战争呢？ 1.长生不老 2.幸福快乐（生理、生物）<br>科学的用途：1. 预测未来 2. 拓宽视野。 同时，研究历史是为了挣脱过去的桎梏</p>
-<p>第一部分 - 智人征服世界<br>智能设计取代自然选择、将生命形式从有机领域延伸到无机领域<br>农业革命（第一次革命）既是经济上的革命，也成了宗教上的革命：通过宗教来赋予“人”特殊的意义<br>现代科学和工业的兴起（第二次革命）中，变成的人类的独角戏<br>农业革命促成了有神论宗教，科技革命催生了人文主义宗教<br>现有的法律、政治和经济制度而言，相信人类有永恒的灵魂而动物只有短暂的肉体（人为什么会与众不同），是制度的重要支柱<br>“他心问题” - （我们生活在的环境是一个虚拟环境）- 图灵测试<br>“智人”能够统治世界，是因为只有智人能够大规模灵活合作<br>历史的展开方式：人类编织出一张意义的网，并全然相信它</p>
-<p>第二部分 - 智人为世界赋予意义<br>文字和货币让人突破了人类大脑的数据处理的限制，建造出幅员辽阔的王国<br>人类合作网络的力量就是依赖于真实与虚构之间的微妙平衡</p>
+            <p><strong>Classification with localization</strong><br>Have output 4 more outputs -&gt; bounding box<br>Depends on whether contains an object.  </p>
+<p><strong>Landmark detection</strong><br>Find some landmark of the face -&gt; is that a face and coordinate of face<br>Add a brunch of outputs  </p>
+<p><strong>Object detection(sliding window)</strong><br>Choose a sliding window through the picture -&gt; predict that region<br>The choose different size of sliding window<br>Much more expensive and slow  </p>
+<p><strong>Convolutional implementation of sliding window</strong><br>Turning FC layer into Conv layer<br><img src="/2018/08/06/YOLO-detection/1.png"><br>Position of bounding box maybe inaccurate.</p>
+<p><strong>Bounding box predictions</strong><br>YOLO split into grids. For each grid cell, have a prediction output<br><img src="/2018/08/06/YOLO-detection/2.png"></p>
+<ol>
+<li>Like image classification and localization  </li>
+<li>Convolutional implementation (fast, real-time) </li>
+</ol>
+<p><strong>Intersection Over Union(IoU)</strong><br>Compute union over bounding boxes (size of intersection / size of union)<br>Correct if IoU &gt;= 0.5 (hyper-parameter)<br>Measure of the overlap between two bounding boxes  </p>
+<p><strong>Non-max suppression (NMS)</strong><br>Clean up the multiple detections<br>Suppress the higher IoU bounding boxes<br>Output the maximum probability box<br>First step, discard all boxes that have a lower probability<br>While loop(any remaining boxes), pick the box with highest probability, then output the prediction Finally, Discard higher IoU boxes.  </p>
+<p><strong>Anchor boxes</strong><br>Predefine several size of anchor boxes<br><img src="/2018/08/06/YOLO-detection/3.png"><br>With two anchor boxes, each object in training image is assigned to grid cell that contains object’s midpoint and anchor box for the grid cell with highest IoU.<br><img src="/2018/08/06/YOLO-detection/4.png"><br>If objects are more than anchor boxes number, this algorithm cannot handle.<br>Or several object share save anchor box shape.  </p>
+<p><strong>YOLO algorithm – put together</strong> </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenghaz.github.io/2018/06/18/language-id/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenghaz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenghaz Official 1.0">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/18/language-id/" itemprop="url">Several RNN-LSTM based speech recognition paper</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-18T10:28:53-07:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>1. Automatic Language Identification using Long Short-Term Memory Recurrent Neural Networks</strong><br><em>2014 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em></p>
+<ol>
+<li>i-vector based LID system<br>39 dimensional PLP coefficients, 21 frames (+-10 left-right context) size: 38 * 21 input<br>hidden units: 2560 - 2560 - Softmax<br>used asynchronous stochastic gradient descent within the DistBelief framework<br>learning rate: 1e-03, minibatch size: 200</li>
+<li>LSTM-RNN architecture<img src="/2018/06/18/language-id/LSTM.png" title="LSTM unit">
+the LSTM-RNN architecture contains 512 memory cells<br>used asynchronous stochastic gradient descent (ASGD) and the truncated back-propagation through time (BPTT) learning algorithm within a distributed training framework </li>
+</ol>
+<p><strong>2. End-to-End Text-Dependent Speaker Verification</strong><br><em>2016 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em><br>Speaker verification is the process of verifying, based on a speaker’s known utterances, whether an utterance belongs to the speaker<br>Speaker Verification Protocal: 1. Training 2. Enrollment 3. Evaluation<br>D-vectors are derived from a deep neural network (DNN), as speaker representation of an utterance<br><img src="/2018/06/18/language-id/DNN.png" title="Deep neural network (DNN) for D-vectors"><br>End-to-End architecture:<br><img src="/2018/06/18/language-id/LSTM-SV.png"></p>
 
           
         
@@ -405,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -455,7 +591,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
